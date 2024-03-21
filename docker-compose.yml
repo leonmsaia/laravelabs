@@ -1,0 +1,75 @@
+version: '3'
+services:
+  laravel:
+    build:
+      context: .
+      dockerfile: ./laravel/Dockerfile
+    container_name: ${LARAVEL_CONTAINER_NAME}
+    ports:
+      - ${APP_PORT}:8000
+    networks:
+      - laravelab_network
+    volumes:
+      - ./laravel:/var/www/html
+    links:
+      - mysql
+      - mongo
+    environment:
+      - APP_NAME=${APP_NAME}
+      - APP_ENV=${APP_ENV}
+      - APP_KEY=${APP_KEY}
+      - APP_DEBUG=${APP_DEBUG}
+      - APP_URL=${APP_URL}
+      - LOG_CHANNEL=${LOG_CHANNEL}
+      - DB_CONNECTION=${MYSQL_CONNECTION}
+      - DB_HOST=${MYSQL_HOST}
+      - DB_PORT=${MYSQL_PORT}
+      - DB_DATABASE=${MYSQL_DATABASE}
+      - DB_USERNAME=${MYSQL_USERNAME}
+      - DB_PASSWORD=${MYSQL_PASSWORD}
+      - MONGO_DB_CONNECTION=${MONGO_DB_CONNECTION}
+      - MONGO_DB_HOST=${MONGO_DB_HOST}
+      - MONGO_DB_PORT=${MONGO_DB_PORT}
+      - MONGO_DB_DATABASE=${MONGO_DB_DATABASE}
+      - MONGO_DB_USERNAME=${MONGO_DB_USERNAME}
+      - MONGO_DB_PASSWORD=${MONGO_DB_PASSWORD}
+
+  mysql:
+    build:
+      context: .
+      dockerfile: ./mysql/Dockerfile
+    container_name: ${MYSQL_CONTAINER_NAME}
+    restart: unless-stopped
+    networks:
+      - laravelab_network
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   container_name: phpmyadmin
+  #   ports:
+  #     - '8081:80'
+  #   environment:
+  #     PMA_HOST: mysql
+  #     MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #   networks:
+  #     - prestashop_network
+
+  mongo:
+    build:
+      context: .
+      dockerfile: ./mongodb/Dockerfile
+    container_name: ${MONGODB_CONTAINER_NAME}
+    ports:
+      - ${MONGO_DB_PORT}:27017
+    networks:
+      - laravelab_network
+    volumes:
+      - ./mongodb/data:/data/db
+
+networks:
+  laravelab_network:

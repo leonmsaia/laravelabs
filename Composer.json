@@ -1,0 +1,44 @@
+{
+    "name": "leonmsaia/laravelabs",
+    "description": "Laravel Lab Project",
+    "type": "project",
+    "keywords": [
+        "laravel"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.4",
+        "fideloper/proxy": "^4.4",
+        "laravel/framework": "^8.0",
+        "laravel/tinker": "^2.5",
+        "laravel/breeze": "^1.0",
+        "laravel/telescope": "^4.5"
+    },
+    "require-dev": {
+        "facade/ignition": "^2.3.6",
+        "fakerphp/faker": "^1.9.1",
+        "phpunit/phpunit": "^9.3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
